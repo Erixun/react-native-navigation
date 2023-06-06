@@ -5,6 +5,7 @@ import { useFonts } from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MealCategoryView from './screens/MealsOverviewScreen';
+import MealDetails from './screens/MealDetails';
 // const createNativeStackNavigator = require('react-native-screens/createNativeStackNavigator').default;
 
 const Stack = createNativeStackNavigator();
@@ -24,11 +25,11 @@ export default function App() {
       <View style={styles.container}>
         {/* <Text>Hello World!!!!</Text> */}
         <StatusBar style="auto" />
-      <Stack.Navigator>
-        <Stack.Screen name="Meal Categories" component={MealCategories} />
-        <Stack.Screen name="Meals" component={MealCategoryView} />
-        {/* <MealCategories /> */}
-      </Stack.Navigator>
+        <Stack.Navigator>
+          <Stack.Screen name="Meal Categories" component={MealCategories} />
+          <Stack.Screen name="Meals" component={MealCategoryView} />
+          <Stack.Screen name="Meal Details" component={MealDetails} />
+        </Stack.Navigator>
       </View>
     </NavigationContainer>
   );
