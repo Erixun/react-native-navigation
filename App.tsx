@@ -6,7 +6,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MealCategoryView from './screens/MealsOverviewScreen';
 import MealDetails from './screens/MealDetails';
-// const createNativeStackNavigator = require('react-native-screens/createNativeStackNavigator').default;
 
 const Stack = createNativeStackNavigator();
 
@@ -24,8 +23,18 @@ export default function App() {
     <NavigationContainer>
       <View style={styles.container}>
         {/* <Text>Hello World!!!!</Text> */}
-        <StatusBar style="auto" />
-        <Stack.Navigator>
+        <StatusBar style="light" />
+        <Stack.Navigator screenOptions={
+          {
+            contentStyle: {
+              backgroundColor: '#f8e9bd',
+            },
+            headerStyle: {
+              backgroundColor: '#0d4739',
+            },
+            headerTintColor: 'white',
+          }
+        }>
           <Stack.Screen name="Meal Categories" component={MealCategories} />
           <Stack.Screen name="Meals" component={MealCategoryView} />
           <Stack.Screen name="Meal Details" component={MealDetails} />
@@ -39,7 +48,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
   },
 });

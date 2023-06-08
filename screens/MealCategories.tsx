@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import Category from "../models/category";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { View, ActivityIndicator, StyleSheet, FlatList } from "react-native";
-
-
-import MealCategoryItem from "../components/MealCategoryItem";
+import MealCategoryTile from "../components/MealCategoryTile";
 
 const fetchCategoriesFromApi = async () => {
   // const response = await fetch(
@@ -21,7 +19,8 @@ const fetchCategoriesFromApi = async () => {
   const data = await response.json();
   const categories: Category[] = [];
   for (const key in data) {
-    categories.push(new Category(key, data[key].title, data[key].color));
+    const {id, title, color} = data[key];
+    categories.push(new Category(id, title, color));
   }
   return categories;
 }
@@ -41,7 +40,7 @@ const MealCategories = ({ navigation }: any) => {
 
 
   const renderMealCategoryItem = ({ item }: { item: Category }) => (
-    <MealCategoryItem
+    <MealCategoryTile
       item={item}
       onPress={() => navigation.navigate('Meals', { category: item })}
     />
@@ -69,6 +68,6 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    // alignItems: "center"
   }
 });

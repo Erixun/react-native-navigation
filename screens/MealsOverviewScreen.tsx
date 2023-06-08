@@ -18,7 +18,12 @@ const MealsOverviewScreen = ({ route, navigation }: any) => {
       });
       //fetchMealsFromApi(category);
       const data = await response.json();
-      setMeals(data);
+      console.log(category);
+      const filteredMeals = data.filter((meal: Meal) => {
+        console.log(meal);
+        return meal.categoryIds.includes(category.id);
+      });
+      setMeals(filteredMeals);
       setIsLoading(false);
     };
     fetchMeals();
@@ -36,7 +41,12 @@ const MealsOverviewScreen = ({ route, navigation }: any) => {
       {isLoading ? (
         <ActivityIndicator size="large" color={Colors.primary} />
       ) : (
-        <FlatList data={meals} renderItem={renderMealItem} numColumns={2} />
+        <FlatList
+          keyExtractor={(item) => item.id}
+          data={meals}
+          renderItem={renderMealItem}
+          numColumns={1}
+        />
       )}
     </View>
   );
