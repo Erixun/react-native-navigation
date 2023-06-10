@@ -32,7 +32,7 @@ const MealsOverviewScreen = ({ route, navigation }: any) => {
   const renderMealItem = ({ item }: { item: Meal }) => (
     <MealItem
       item={item}
-      onPress={() => navigation.navigate('Meal Details', { meal: item })}
+      onPress={() => navigation.navigate('Meal Details', { meal: item, mealId: item.id })}
     />
   );
 

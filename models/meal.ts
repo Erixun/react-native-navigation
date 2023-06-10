@@ -12,7 +12,8 @@ class Meal {
     isGlutenFree: boolean,
     isVegan: boolean,
     isVegetarian: boolean,
-    isLactoseFree: boolean
+    isLactoseFree: boolean,
+    isFavorite?: boolean
   ) {
     this.id = id;
     this.categoryIds = categoryIds;
@@ -44,6 +45,7 @@ interface Meal {
   isVegan: boolean;
   isVegetarian: boolean;
   isLactoseFree: boolean;
+  isFavorite?: boolean;
 }
 
 export default Meal;

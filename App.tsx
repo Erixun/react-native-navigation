@@ -1,13 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View, Text, Button, Pressable } from 'react-native';
 import MealCategories from './screens/MealCategories';
 import { useFonts } from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MealCategoryView from './screens/MealsOverviewScreen';
 import MealDetails from './screens/MealDetails';
+import Category from './models/category';
+import Meal from './models/meal';
+import { Ionicons } from '@expo/vector-icons';
+import { useState } from 'react';
 
-const Stack = createNativeStackNavigator();
+export type RootStackParamList = {
+  'Meal Categories': undefined;
+  Meals: { category: Category; categoryId: string };
+  'Meal Details': { meal: Meal, mealId: string };
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   const [loaded] = useFonts({
@@ -15,17 +25,14 @@ export default function App() {
     'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
   });
 
-  if (!loaded) {
-    return null;
-  }
+  if (!loaded) return null;
 
   return (
     <NavigationContainer>
       <View style={styles.container}>
-        {/* <Text>Hello World!!!!</Text> */}
         <StatusBar style="light" />
-        <Stack.Navigator screenOptions={
-          {
+        <Stack.Navigator
+          screenOptions={{
             contentStyle: {
               backgroundColor: '#f8e9bd',
             },
@@ -33,11 +40,55 @@ export default function App() {
               backgroundColor: '#0d4739',
             },
             headerTintColor: 'white',
-          }
-        }>
+          }}
+        >
           <Stack.Screen name="Meal Categories" component={MealCategories} />
-          <Stack.Screen name="Meals" component={MealCategoryView} />
-          <Stack.Screen name="Meal Details" component={MealDetails} />
+          <Stack.Screen
+            name="Meals"
+            component={MealCategoryView}
+            options={({ route }) => ({ title: route.params.category.title })}
+          />
+          <Stack.Screen
+            name="Meal Details"
+            component={MealDetails}
+            options={({ route }) => ({
+              title: route.params.meal.title,
+              isFavorite: false, //route.params.meal.isFavorite,
+              headerBackTitle: 'Back',
+              headerRight: () => {
+                const isFavoriteMeal = route.params.meal.isFavorite ?? false;
+                const [isFavorite, setIsFavorite] = useState(isFavoriteMeal);
+                
+                const toggleFavorite = () => {
+                  setIsFavorite(!isFavorite);
+                };
+                return (
+                  <View style={{ marginRight: 10 }}>
+                    {/* <StatusBar style="light" /> */}
+                    {/* <Text style={{ color: 'white' }}>Test</Text> */}
+                    <Pressable
+                      onPress={toggleFavorite}
+                      style={({ pressed }) => ({
+                        opacity: pressed ? 0.5 : 1,
+                      })}
+                    >
+                      <Ionicons
+                        name={isFavorite ? 'heart' : 'heart-outline'}
+                        size={24}
+                        color="white"
+                      />
+                    </Pressable>
+                    {/* <Button
+                    title="<3"
+                    onPress={() => console.log('Mark as favorite')}
+                  }
+                /> */}
+                  </View>
+                );
+              },
+              // ),
+            })}
+          />
         </Stack.Navigator>
       </View>
     </NavigationContainer>
