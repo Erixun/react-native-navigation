@@ -10,11 +10,14 @@ import Category from './models/category';
 import Meal from './models/meal';
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
+import DrawerNavigator from './navigators/DrawerNavigator';
 
 export type RootStackParamList = {
   'Meal Categories': undefined;
   Meals: { category: Category; categoryId: string };
   'Meal Details': { meal: Meal, mealId: string };
+  Favorites: undefined;
+  Drawer: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -42,7 +45,12 @@ export default function App() {
             headerTintColor: 'white',
           }}
         >
-          <Stack.Screen name="Meal Categories" component={MealCategories} />
+          {/* <Stack.Screen name="Meal Categories" component={MealCategories} /> */}
+          <Stack.Screen
+            name="Drawer"
+            component={DrawerNavigator}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen
             name="Meals"
             component={MealCategoryView}
@@ -64,8 +72,6 @@ export default function App() {
                 };
                 return (
                   <View style={{ marginRight: 10 }}>
-                    {/* <StatusBar style="light" /> */}
-                    {/* <Text style={{ color: 'white' }}>Test</Text> */}
                     <Pressable
                       onPress={toggleFavorite}
                       style={({ pressed }) => ({
@@ -78,15 +84,9 @@ export default function App() {
                         color="white"
                       />
                     </Pressable>
-                    {/* <Button
-                    title="<3"
-                    onPress={() => console.log('Mark as favorite')}
-                  }
-                /> */}
                   </View>
                 );
               },
-              // ),
             })}
           />
         </Stack.Navigator>

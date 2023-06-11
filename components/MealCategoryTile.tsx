@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   buttonPressed: {
     opacity: 0.5,
-    transform: [{ scale: 1.05 }],
+    // transform: [{ scale: 1.05 }],
   },
   innerContainer: {
     backgroundColor: 'transparent',
