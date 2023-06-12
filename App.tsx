@@ -11,6 +11,7 @@ import Meal from './models/meal';
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import DrawerNavigator from './navigators/DrawerNavigator';
+import TabsNavigator from './navigators/TabNavigator';
 
 export type RootStackParamList = {
   'Meal Categories': undefined;
@@ -18,6 +19,7 @@ export type RootStackParamList = {
   'Meal Details': { meal: Meal, mealId: string };
   Favorites: undefined;
   Drawer: undefined;
+  Tabs: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -46,9 +48,14 @@ export default function App() {
           }}
         >
           {/* <Stack.Screen name="Meal Categories" component={MealCategories} /> */}
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Drawer"
             component={DrawerNavigator}
+            options={{ headerShown: false }}
+          /> */}
+      <Stack.Screen
+            name="Tabs"
+            component={TabsNavigator}
             options={{ headerShown: false }}
           />
           <Stack.Screen

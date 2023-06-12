@@ -1,46 +1,47 @@
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MealCategories from '../screens/MealCategories';
 import Favorites from '../screens/Favorites';
 import { Ionicons } from '@expo/vector-icons';
 
-const Drawer = createDrawerNavigator();
+const Tabs = createBottomTabNavigator();
 
-const DrawerNavigator = () => {
+const TabsNavigator = () => {
   return (
-    <Drawer.Navigator screenOptions={
-      {
-        drawerStyle: {
+    <Tabs.Navigator
+      screenOptions={{
+        tabBarStyle: {
           backgroundColor: '#f8e9bd',
         },
-        drawerInactiveTintColor: 'grey',
-        drawerActiveTintColor: '#0d4739',
-        drawerActiveBackgroundColor: '#ecbb27',
-        drawerLabelStyle: {
+        tabBarInactiveTintColor: 'grey',
+        tabBarActiveTintColor: '#0d4739',
+        tabBarActiveBackgroundColor: '#ecbb27',
+        tabBarLabelStyle: {
           fontFamily: 'open-sans-bold',
         },
-      }
-    }>
-      <Drawer.Screen
+      }}
+    >
+      <Tabs.Screen
         name="Meal Categories"
         component={MealCategories}
         options={{
-          drawerIcon: (props) => (
+          tabBarIcon: (props) => (
+            // TabIcon: (props) => (
             <Ionicons name="ios-restaurant" size={20} color={props.color} />
           ),
         }}
       />
-      <Drawer.Screen
+      <Tabs.Screen
         name="Favorites"
         component={Favorites}
         options={{
           title: 'My Favorites',
-          drawerIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <Ionicons name="ios-heart" size={size} color={color} />
           ),
         }}
       />
-    </Drawer.Navigator>
+    </Tabs.Navigator>
   );
 };
 
-export default DrawerNavigator;
+export default TabsNavigator;

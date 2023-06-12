@@ -31,7 +31,7 @@ const toggleFavorite = () => {
     navigation.setOptions({
       headerRight: () => (
         <Ionicons
-          name={isFavoriteMeal ? 'ios-star' : 'ios-star-outline'}
+          name={isFavoriteMeal ? 'ios-heart' : 'ios-heart-outline'}
           size={24}
           color="white"
           onPress={toggleFavorite}

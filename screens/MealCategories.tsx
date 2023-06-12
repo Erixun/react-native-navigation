@@ -49,7 +49,7 @@ export default MealCategories;
 
 const styles = StyleSheet.create({
   screen: {
-    marginVertical: 20,
+    // marginVertical: 20,
     flex: 1,
     justifyContent: 'center',
   },
