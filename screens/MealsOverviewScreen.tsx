@@ -3,6 +3,7 @@ import { View, ActivityIndicator, FlatList, StyleSheet } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Meal from '../models/meal';
 import MealItem from '../components/MealItem';
+import renderMealItem from '../utils/renderMealItem';
 
 const MealsOverviewScreen = ({ route, navigation }: any) => {
   const { category } = route.params;

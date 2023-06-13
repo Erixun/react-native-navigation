@@ -9,8 +9,9 @@ import {
 } from 'react-native';
 import { RootStackParamList } from '../App';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useLayoutEffect, useState } from 'react';
+import { useContext, useLayoutEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import { FavoritesContext } from '../store/context/favoritesContext';
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
@@ -20,13 +21,18 @@ type Props = NativeStackScreenProps<
 
 const MealDetails = ({ navigation, route }: Props) => {
   const { meal, mealId } = route.params;
-  
-  console.log(meal);
+  const favoriteMealsCtx = useContext(FavoritesContext);
 
-  const [isFavoriteMeal, setIsFavoriteMeal] = useState(meal.isFavorite);
-const toggleFavorite = () => {
-  setIsFavoriteMeal(!isFavoriteMeal);
-};
+  console.log(meal);
+  const isFavorite = favoriteMealsCtx.favoriteIds.includes(mealId);
+  const [isFavoriteMeal, setIsFavoriteMeal] = useState(isFavorite)//meal.isFavorite);
+  const toggleFavorite = () => {
+    setIsFavoriteMeal(!isFavoriteMeal);
+    if (isFavoriteMeal) {
+      return favoriteMealsCtx.removeFavorite(mealId);
+    }
+    favoriteMealsCtx.addFavorite(mealId);
+  };
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -38,8 +44,7 @@ const toggleFavorite = () => {
         />
       ),
     });
-  }
-  , [navigation, isFavoriteMeal]);
+  }, [navigation, isFavoriteMeal]);
 
   return (
     <View style={styles.screen}>
@@ -61,8 +66,8 @@ const toggleFavorite = () => {
             renderItem={({ item }) => <Text>{item}</Text>}
             keyExtractor={(item) => item}
           /> */}
-          <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-            <Text style={{fontSize: 16}}>{meal.ingredients.join(', ')}.</Text>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+            <Text style={{ fontSize: 16 }}>{meal.ingredients.join(', ')}.</Text>
             {/* {meal.ingredients.map((ingredient) => {
               return (
                 <Text style={styles.li} key={ingredient}>
@@ -79,7 +84,7 @@ const toggleFavorite = () => {
           </Text>
 
           {meal.steps.map((step, i) => (
-            <Text style={[styles.li, {fontSize: 16}]} key={i}>
+            <Text style={[styles.li, { fontSize: 16 }]} key={i}>
               {i + 1}. {step}
             </Text>
           ))}
