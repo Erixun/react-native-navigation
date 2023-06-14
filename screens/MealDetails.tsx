@@ -12,6 +12,12 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useContext, useLayoutEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { FavoritesContext } from '../store/context/favoritesContext';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  addFavorite,
+  removeFavorite,
+  selectFavoriteMealIds,
+} from '../store/redux/favoritesSlice';
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
@@ -21,17 +27,19 @@ type Props = NativeStackScreenProps<
 
 const MealDetails = ({ navigation, route }: Props) => {
   const { meal, mealId } = route.params;
-  const favoriteMealsCtx = useContext(FavoritesContext);
+  // const favoriteMealsCtx = useContext(FavoritesContext);
+  const favoriteMealIds = useSelector(selectFavoriteMealIds);
+  const dispatch = useDispatch();
 
   console.log(meal);
-  const isFavorite = favoriteMealsCtx.favoriteIds.includes(mealId);
-  const [isFavoriteMeal, setIsFavoriteMeal] = useState(isFavorite)//meal.isFavorite);
+  const isFavorite = favoriteMealIds.includes(mealId); //favoriteMealsCtx.favoriteIds.includes(mealId);
+  const [isFavoriteMeal, setIsFavoriteMeal] = useState(isFavorite); //meal.isFavorite);
   const toggleFavorite = () => {
     setIsFavoriteMeal(!isFavoriteMeal);
     if (isFavoriteMeal) {
-      return favoriteMealsCtx.removeFavorite(mealId);
+      return dispatch(removeFavorite({ id: mealId })); //favoriteMealsCtx.removeFavorite(mealId);
     }
-    favoriteMealsCtx.addFavorite(mealId);
+    dispatch(addFavorite({ id: mealId })); //favoriteMealsCtx.addFavorite(mealId);
   };
   useLayoutEffect(() => {
     navigation.setOptions({

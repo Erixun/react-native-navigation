@@ -18,16 +18,20 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 // import renderMealItem from '../utils/renderMealItem';
 import MealItem from '../components/MealItem';
 import Meal from '../models/meal';
+import { useSelector } from 'react-redux';
+import { selectFavoriteMealIds } from '../store/redux/favoritesSlice';
 type Props = NativeStackScreenProps<RootStackParamList, 'Drawer', 'Stack'>;
 
 const Favorites = ({ route, navigation }: Props) => {
   // const {toggleDrawer} = useNavigation();
   const [isLoading, setIsLoading] = useState(true);
+  const favoriteMealIds = useSelector(selectFavoriteMealIds);
+  // const favoritesCtx = useContext(FavoritesContext);
 
-  const favoritesCtx = useContext(FavoritesContext);
-  const favoriteMeals = favoritesCtx.favoriteIds.map((mealId) => {
-    return MEALS.find((meal) => meal.id === mealId);
-  });
+  const favoriteMeals = //favoritesCtx.favoriteIds.map((mealId) => {
+    favoriteMealIds.map((mealId: string) => {
+      return MEALS.find((meal) => meal.id === mealId);
+    });
   const openDrawer = () => {
     navigation.dispatch(DrawerActions.toggleDrawer()); //toggleDrawer()
   };

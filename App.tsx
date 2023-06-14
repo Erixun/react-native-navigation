@@ -13,6 +13,8 @@ import { useState } from 'react';
 import DrawerNavigator from './navigators/DrawerNavigator';
 import TabsNavigator from './navigators/TabNavigator';
 import FavoritesContextProvider from './store/context/favoritesContext';
+import { Provider } from 'react-redux';
+import store from './store/redux/store';
 
 export type RootStackParamList = {
   'Meal Categories': undefined;
@@ -35,7 +37,8 @@ export default function App() {
 
   return (
     <>
-      <FavoritesContextProvider>
+      {/* <FavoritesContextProvider> */}
+      <Provider store={store}>
         <StatusBar style="light" />
         <NavigationContainer>
           <View style={styles.container}>
@@ -106,7 +109,8 @@ export default function App() {
             </Stack.Navigator>
           </View>
         </NavigationContainer>
-      </FavoritesContextProvider>
+      </Provider>
+      {/* </FavoritesContextProvider> */}
     </>
   );
 }
