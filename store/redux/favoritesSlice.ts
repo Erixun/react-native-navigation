@@ -7,12 +7,19 @@ type FavoriteAction = {
   };
 };
 
+type FavoritesState = {
+  favorites: {
+    mealIds: string[];
+  };
+};
+
 const favoritesSlice = createSlice({
   name: 'favorites',
   initialState: {
     mealIds: <string[]>[],
   },
   reducers: {
+    //methods that are used to update the state
     addFavorite: (state, action: FavoriteAction) => {
       state.mealIds.push(action.payload.id);
     },
@@ -27,4 +34,5 @@ const favoritesSlice = createSlice({
 export const { addFavorite, removeFavorite } = favoritesSlice.actions;
 export const favoritesReducer = favoritesSlice.reducer;
 
-export const selectFavoriteMealIds = (state) => state.favorites.mealIds;
+export const selectFavoriteMealIds = (state: FavoritesState) =>
+  state.favorites.mealIds;

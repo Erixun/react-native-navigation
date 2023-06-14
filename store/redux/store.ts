@@ -3,7 +3,7 @@ import { favoritesReducer } from './favoritesSlice';
 
 const store = configureStore({
   reducer: {
-    // Reducers
+    //these are the different 'slices of data' for the store
     favorites: favoritesReducer,
   },
 });
