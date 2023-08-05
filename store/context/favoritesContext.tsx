@@ -1,40 +1,66 @@
 import { createContext, useState } from 'react';
 
-interface FavoritesContext {
-  favoriteIds: any[];
-  addFavorite: (favoriteId: any) => void;
-  removeFavorite: (favoriteId: any) => void;
-}
-
-export const FavoritesContext = createContext({
+export const FavoritesContext = createContext<FavoritesContextType>({
   favoriteIds: [],
-  addFavorite: (favoriteId: any) => {},
-  removeFavorite: (favoriteId: any) => {},
+  addFavorite: (favoriteId: string) => {},
+  updateFavorite: (favoriteId: string) => {},
+  removeFavorite: (favoriteId: string) => {},
 });
 
-function FavoritesContextProvider({ children }) {
+export const FavoritesContextProvider = ({
+  children,
+}: FavoritesContextProviderProps) => {
+  const [favoriteIds, setFavoritesIds] = useState<string[]>([]);
 
-  const [favoriteIds, setFavoriteIds] = useState([]);
-
-  const addFavorite = (favoriteId: any) => {
-    setFavoriteIds([...favoriteIds, favoriteId]);
+  const addFavorite = (favoriteId: string) => {
+    setFavoritesIds((currentFavoriteIds: string[]) => [
+      ...currentFavoriteIds,
+      favoriteId,
+    ]);
   };
 
-  const removeFavorite = (favoriteId: any) => {
-    setFavoriteIds(favoriteIds.filter((id) => id !== favoriteId));
+  const updateFavorite = (favoriteId: string) => {
+    setFavoritesIds((currentFavoriteIds) => {
+      const index = currentFavoriteIds.findIndex(
+        (currentFavoriteId) => currentFavoriteId === favoriteId
+      );
+      const updatedFavoriteIds = [...currentFavoriteIds];
+      updatedFavoriteIds[index] = favoriteId;
+      return updatedFavoriteIds;
+    });
   };
 
-  const value: FavoritesContext = {
+  const removeFavorite = (favoriteId: string) => {
+    setFavoritesIds((currentFavoriteIds) =>
+      currentFavoriteIds.filter(
+        (currentFavoriteId) => currentFavoriteId !== favoriteId
+      )
+    );
+  };
+
+  const contextValue = {
     favoriteIds,
     addFavorite,
+    updateFavorite,
     removeFavorite,
   };
 
   return (
-    <FavoritesContext.Provider value={value}>
+    <FavoritesContext.Provider value={contextValue}>
       {children}
     </FavoritesContext.Provider>
   );
-}
+};
 
-export default FavoritesContextProvider;
+export type FavoritesContextType = {
+  favoriteIds: string[];
+  addFavorite: (favoriteId: string) => void;
+  updateFavorite: (favoriteId: string) => void;
+  removeFavorite: (favoriteId: string) => void;
+};
+
+type FavoritesContextMethod = (favoriteId: string) => void;
+
+type FavoritesContextProviderProps = {
+  children: React.ReactNode;
+};

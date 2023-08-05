@@ -12,7 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import DrawerNavigator from './navigators/DrawerNavigator';
 import TabsNavigator from './navigators/TabNavigator';
-import FavoritesContextProvider from './store/context/favoritesContext';
+import { FavoritesContextProvider } from './store/context/favoritesContext';
 import { Provider } from 'react-redux';
 import store from './store/redux/store';
 
@@ -37,7 +37,7 @@ export default function App() {
 
   return (
     <>
-      {/* <FavoritesContextProvider> */}
+      <FavoritesContextProvider>
       <Provider store={store}>
         <StatusBar style="light" />
         <NavigationContainer>
@@ -110,7 +110,7 @@ export default function App() {
           </View>
         </NavigationContainer>
       </Provider>
-      {/* </FavoritesContextProvider> */}
+      </FavoritesContextProvider>
     </>
   );
 }
